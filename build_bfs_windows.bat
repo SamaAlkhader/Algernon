@@ -1,4 +1,4 @@
-@echo off
+v@echo off
 setlocal
 
 where g++ >nul 2>nul
