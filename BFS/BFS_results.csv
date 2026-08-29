@@ -1,0 +1,4 @@
+timestamp,algorithm,maze_width,maze_height,goal_reached,moves,turns,unique_cells_visited,total_cell_entries,elapsed_ms
+2026-08-29 15:39:24,BFS,16,16,true,560,214,256,561,15075
+2026-08-29 15:47:45,BFS,16,16,true,398,257,256,399,11498
+2026-08-29 15:58:46,BFS,8,8,true,166,104,64,167,4818

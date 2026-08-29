@@ -1,0 +1,194 @@
+Starting BFS (two pass, full exploration) on 8 x 8 maze
+Step: 1 | Position: (0,1) | Action: FORWARD | Unique cells visited: 2
+Step: 2 | Position: (0,2) | Action: FORWARD | Unique cells visited: 3
+Step: 3 | Position: (1,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 4
+Step: 4 | Position: (1,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 5
+Step: 5 | Position: (1,4) | Action: FORWARD | Unique cells visited: 6
+Step: 6 | Position: (1,5) | Action: FORWARD | Unique cells visited: 7
+Step: 7 | Position: (0,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 8
+Step: 8 | Position: (0,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 9
+Step: 9 | Position: (0,7) | Action: FORWARD | Unique cells visited: 10
+Step: 10 | Position: (1,7) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 11
+Step: 11 | Position: (2,7) | Action: FORWARD | Unique cells visited: 12
+Step: 12 | Position: (3,7) | Action: FORWARD | Unique cells visited: 13
+Step: 13 | Position: (4,7) | Action: FORWARD | Unique cells visited: 14
+Step: 14 | Position: (5,7) | Action: FORWARD | Unique cells visited: 15
+Step: 15 | Position: (6,7) | Action: FORWARD | Unique cells visited: 16
+Step: 16 | Position: (7,7) | Action: FORWARD | Unique cells visited: 17
+Step: 17 | Position: (7,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 18
+Step: 18 | Position: (6,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 19
+Step: 19 | Position: (6,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 20
+Step: 20 | Position: (6,4) | Action: FORWARD | Unique cells visited: 21
+Step: 21 | Position: (5,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 22
+Step: 22 | Position: (5,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 23
+Step: 23 | Position: (6,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 24
+Step: 24 | Position: (7,3) | Action: FORWARD | Unique cells visited: 25
+Step: 25 | Position: (7,4) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 26
+Step: 26 | Position: (7,5) | Action: FORWARD | Unique cells visited: 27
+Step: 27 | Position: (7,4) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 27
+Step: 28 | Position: (7,3) | Action: FORWARD | Unique cells visited: 27
+Step: 29 | Position: (7,2) | Action: FORWARD | Unique cells visited: 28
+Step: 30 | Position: (6,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 29
+Step: 31 | Position: (5,2) | Action: FORWARD | Unique cells visited: 30
+Step: 32 | Position: (5,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 31
+Step: 33 | Position: (6,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 32
+Step: 34 | Position: (6,0) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 33
+Step: 35 | Position: (7,0) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 34
+Step: 36 | Position: (7,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 35
+Step: 37 | Position: (7,0) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 35
+Step: 38 | Position: (6,0) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 35
+Step: 39 | Position: (5,0) | Action: FORWARD | Unique cells visited: 36
+Step: 40 | Position: (4,0) | Action: FORWARD | Unique cells visited: 37
+Step: 41 | Position: (3,0) | Action: FORWARD | Unique cells visited: 38
+Step: 42 | Position: (2,0) | Action: FORWARD | Unique cells visited: 39
+Step: 43 | Position: (1,0) | Action: FORWARD | Unique cells visited: 40
+Step: 44 | Position: (1,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 41
+Step: 45 | Position: (2,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 42
+Step: 46 | Position: (2,2) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 43
+Step: 47 | Position: (3,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 44
+Step: 48 | Position: (3,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 45
+Center discovered at step 48; continuing the learning pass
+Step: 49 | Position: (2,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 46
+Step: 50 | Position: (2,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 47
+Step: 51 | Position: (3,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 48
+Step: 52 | Position: (3,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 49
+Step: 53 | Position: (2,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 50
+Step: 54 | Position: (2,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 51
+Step: 55 | Position: (3,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 52
+Step: 56 | Position: (4,6) | Action: FORWARD | Unique cells visited: 53
+Step: 57 | Position: (4,5) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 54
+Step: 58 | Position: (5,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 55
+Step: 59 | Position: (5,6) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 56
+Step: 60 | Position: (5,5) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 56
+Step: 61 | Position: (4,5) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 56
+Step: 62 | Position: (4,4) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 57
+Step: 63 | Position: (4,3) | Action: FORWARD | Unique cells visited: 58
+Step: 64 | Position: (4,2) | Action: FORWARD | Unique cells visited: 59
+Step: 65 | Position: (4,1) | Action: FORWARD | Unique cells visited: 60
+Step: 66 | Position: (3,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 61
+Step: 67 | Position: (4,1) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 61
+Step: 68 | Position: (4,2) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 61
+Step: 69 | Position: (4,3) | Action: FORWARD | Unique cells visited: 61
+Step: 70 | Position: (4,4) | Action: FORWARD | Unique cells visited: 61
+Step: 71 | Position: (4,5) | Action: FORWARD | Unique cells visited: 61
+Step: 72 | Position: (4,6) | Action: FORWARD | Unique cells visited: 61
+Step: 73 | Position: (3,6) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 61
+Step: 74 | Position: (2,6) | Action: FORWARD | Unique cells visited: 61
+Step: 75 | Position: (1,6) | Action: FORWARD | Unique cells visited: 62
+Step: 76 | Position: (2,6) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 62
+Step: 77 | Position: (2,5) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 78 | Position: (3,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 79 | Position: (3,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 80 | Position: (2,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 81 | Position: (2,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 82 | Position: (3,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 83 | Position: (3,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 84 | Position: (2,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 85 | Position: (2,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 86 | Position: (1,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 87 | Position: (1,0) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 88 | Position: (2,0) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 89 | Position: (3,0) | Action: FORWARD | Unique cells visited: 62
+Step: 90 | Position: (4,0) | Action: FORWARD | Unique cells visited: 62
+Step: 91 | Position: (5,0) | Action: FORWARD | Unique cells visited: 62
+Step: 92 | Position: (6,0) | Action: FORWARD | Unique cells visited: 62
+Step: 93 | Position: (6,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 94 | Position: (5,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 95 | Position: (5,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 96 | Position: (6,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 97 | Position: (7,2) | Action: FORWARD | Unique cells visited: 62
+Step: 98 | Position: (7,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 99 | Position: (6,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 100 | Position: (5,3) | Action: FORWARD | Unique cells visited: 62
+Step: 101 | Position: (5,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 102 | Position: (6,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 103 | Position: (6,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 104 | Position: (6,6) | Action: FORWARD | Unique cells visited: 62
+Step: 105 | Position: (7,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 62
+Step: 106 | Position: (7,7) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 107 | Position: (6,7) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 108 | Position: (5,7) | Action: FORWARD | Unique cells visited: 62
+Step: 109 | Position: (4,7) | Action: FORWARD | Unique cells visited: 62
+Step: 110 | Position: (3,7) | Action: FORWARD | Unique cells visited: 62
+Step: 111 | Position: (2,7) | Action: FORWARD | Unique cells visited: 62
+Step: 112 | Position: (1,7) | Action: FORWARD | Unique cells visited: 62
+Step: 113 | Position: (0,7) | Action: FORWARD | Unique cells visited: 62
+Step: 114 | Position: (0,6) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 62
+Step: 115 | Position: (0,5) | Action: FORWARD | Unique cells visited: 62
+Step: 116 | Position: (0,4) | Action: FORWARD | Unique cells visited: 63
+Step: 117 | Position: (0,3) | Action: FORWARD | Unique cells visited: 64
+Step: 118 | Position: (0,4) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 64
+Phase: returning home
+Step: 119 | Position: (0,5) | Action: FORWARD | Unique cells visited: 64
+Step: 120 | Position: (1,5) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 121 | Position: (1,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 122 | Position: (1,3) | Action: FORWARD | Unique cells visited: 64
+Step: 123 | Position: (1,2) | Action: FORWARD | Unique cells visited: 64
+Step: 124 | Position: (0,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 125 | Position: (0,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 126 | Position: (0,0) | Action: FORWARD | Unique cells visited: 64
+Phase: final shortest run
+Step: 127 | Position: (0,1) | Action: TURN_AROUND_AND_FORWARD | Unique cells visited: 64
+Step: 128 | Position: (0,2) | Action: FORWARD | Unique cells visited: 64
+Step: 129 | Position: (1,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 130 | Position: (1,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 131 | Position: (1,4) | Action: FORWARD | Unique cells visited: 64
+Step: 132 | Position: (1,5) | Action: FORWARD | Unique cells visited: 64
+Step: 133 | Position: (0,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 134 | Position: (0,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 135 | Position: (0,7) | Action: FORWARD | Unique cells visited: 64
+Step: 136 | Position: (1,7) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 137 | Position: (2,7) | Action: FORWARD | Unique cells visited: 64
+Step: 138 | Position: (3,7) | Action: FORWARD | Unique cells visited: 64
+Step: 139 | Position: (4,7) | Action: FORWARD | Unique cells visited: 64
+Step: 140 | Position: (5,7) | Action: FORWARD | Unique cells visited: 64
+Step: 141 | Position: (6,7) | Action: FORWARD | Unique cells visited: 64
+Step: 142 | Position: (7,7) | Action: FORWARD | Unique cells visited: 64
+Step: 143 | Position: (7,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 144 | Position: (6,6) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 145 | Position: (6,5) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 146 | Position: (6,4) | Action: FORWARD | Unique cells visited: 64
+Step: 147 | Position: (5,4) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 148 | Position: (5,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 149 | Position: (6,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 150 | Position: (7,3) | Action: FORWARD | Unique cells visited: 64
+Step: 151 | Position: (7,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 152 | Position: (6,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 153 | Position: (5,2) | Action: FORWARD | Unique cells visited: 64
+Step: 154 | Position: (5,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 155 | Position: (6,1) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 156 | Position: (6,0) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 157 | Position: (5,0) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 158 | Position: (4,0) | Action: FORWARD | Unique cells visited: 64
+Step: 159 | Position: (3,0) | Action: FORWARD | Unique cells visited: 64
+Step: 160 | Position: (2,0) | Action: FORWARD | Unique cells visited: 64
+Step: 161 | Position: (1,0) | Action: FORWARD | Unique cells visited: 64
+Step: 162 | Position: (1,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 163 | Position: (2,1) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 164 | Position: (2,2) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Step: 165 | Position: (3,2) | Action: TURN_RIGHT_AND_FORWARD | Unique cells visited: 64
+Step: 166 | Position: (3,3) | Action: TURN_LEFT_AND_FORWARD | Unique cells visited: 64
+Phase: done
+Solved: final shortest run stopped in the center
+Summary: steps=166, turns=104, unique cells=64, total entries=167, elapsed=4818 ms, final=(3,3)
+
+--- SUMMARY ---
+Algorithm: BFS
+Maze size: 8 x 8
+Goal reached: yes
+Moves: 166
+Turns: 104
+Unique cells visited: 64
+Total cell entries: 167
+Final position: (3,3)
+Elapsed ms: 4818
+
+--- Visit-count matrix (for heatmap; row = y, printed top->bottom) ---
+3 3 3 3 3 3 3 3 
+3 1 3 2 2 1 3 3 
+4 3 2 2 3 2 3 1 
+2 3 2 2 2 3 3 2 
+1 3 2 3 2 3 3 4 
+3 3 3 3 2 3 3 3 
+3 3 3 1 2 3 3 1 
+2 3 3 3 3 3 4 2 
