@@ -29,39 +29,39 @@ def _send_command_without_response(args):
     sys.stdout.flush()
 
 def mazeWidth():
-    return int(_command["mazeWidth"])
+    return int(_send_command_and_wait(["mazeWidth"]))
 
 def mazeHeight():
-    return int(_command["mazeHeight"])
+    return int(_send_command_and_wait(["mazeHeight"]))
 
 def wallFront():
-    return _command["wallFront"] == "true"
+    return _send_command_and_wait(["wallFront"]) == "true"
 
 def wallRight():
-    return _command["wallRight"] == "true"
+    return _send_command_and_wait(["wallRight"]) == "true"
 
 def wallLeft():
-    return _command["wallLeft"] == "true"
+    return _send_command_and_wait(["wallLeft"]) == "true"
 
 def wallBack():
-    return _command["wallBack"] == "true"
+    return _send_command_and_wait(["wallBack"]) == "true"
 
 def moveForward(distance=1):
     """
     Per official mms docs:
     Returns 'ack' on success
-            'crach' on failure
+            'crash' on failure
     """
     args = ["moveForward"]
     if distance != 1:
         args.append(str(distance))
-    return _command(args)
+    return _send_command_and_wait(args)
 
 def turnRight():
-    return _command(["turnRight"])
+    return _send_command_and_wait(["turnRight"])
 
 def turnLeft():
-    return _command(["turnLeft"])
+    return _send_command_and_wait(["turnLeft"])
 
 def setWall(x,y,direction):
     return _send_command_without_response(["setWall",str(x),str(y),direction])
@@ -88,7 +88,7 @@ def clearAllText():
     return _send_command_without_response(["clearAllText"])
 
 def wasReset():
-    return _command["wasReset"] == "true"
+    return _send_command_and_wait(["wasReset"]) == "true"
 
 def ackReset():
-    return _command(["ackReset"])
+    return _send_command_and_wait(["ackReset"])
