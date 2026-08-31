@@ -1,0 +1,12 @@
+Floodfill run summary
+======================
+timestamp: 2026-08-31T21:44:18
+algorithm: floodfill
+maze_width: 16
+maze_height: 16
+goal_reached: True
+moves: 101
+turns: 75
+unique_cells_visited: 102
+total_cell_entries: 101
+elapsed_ms: 55693
