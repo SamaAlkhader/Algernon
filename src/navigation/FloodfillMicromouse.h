@@ -55,4 +55,4 @@ private:
     void writeResults(bool goalReached, int uniqueCellsVisited) const;
 };
 
-#endif  // FLOODFILL_MICROMOUSE_H
+#endif
