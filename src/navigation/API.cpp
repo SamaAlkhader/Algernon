@@ -139,4 +139,4 @@ void clearAllText() {
     sendCommandWithoutResponse({"clearAllText"});
 }
 
-}  // namespace API
+} 
