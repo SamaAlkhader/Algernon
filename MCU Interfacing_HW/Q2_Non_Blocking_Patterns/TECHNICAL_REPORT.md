@@ -7,4 +7,4 @@ The bonus comparison is one masked read: `(PORTB & 0x07) == 0x07`.
 
 ## Tinkercad simulation
 
-**Link:** _Paste the Tinkercad simulation link here._
+**Link:** _[Q2 tinkercad](https://www.tinkercad.com/things/8Ns6eLq4T4D-question-2?sharecode=f7PmhZAiuh0kNJKu4H3KLXudUtm6CmCERm6JqI7U4lI)_

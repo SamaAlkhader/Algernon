@@ -10,4 +10,4 @@ output states are preserved, then the original periods are restored automaticall
 
 ## Tinkercad simulation
 
-**Link:** _Paste the Tinkercad simulation link here._
+**Link:** _[Q3 tinkercad - not done yet](https://www.tinkercad.com/things/dQUHsafOqpk/editel?returnTo=%2Fdashboard&sharecode=Lu0zAVMG1I4Uex-t71aERj3TdcQ88Yk6vEzv-pv_fEI)_

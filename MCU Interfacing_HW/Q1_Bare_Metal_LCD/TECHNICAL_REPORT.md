@@ -7,4 +7,4 @@ only for LCD-required settling; the runtime update uses a 100 ms `millis()` sche
 
 ## Tinkercad simulation
 
-**Link:** _Paste the Tinkercad simulation link here._
+**Link:** _[Q1 tinkercad](https://www.tinkercad.com/things/hib5CWZqjwU/editel?returnTo=%2Fdashboard&sharecode=5ecKqhgPnlr7C_JtBIThkuo8CR9qMXseZ3hgMkcg4MY)_
