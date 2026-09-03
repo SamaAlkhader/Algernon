@@ -9,4 +9,4 @@ data bus, so it needs a shift register or a separately assigned port on larger h
 
 ## Tinkercad simulation
 
-**Link:** _Paste the Tinkercad simulation link here._
+[**Link:** Q4 TinkerCAD_](https://www.tinkercad.com/things/kg6LFf8DQTm/editel?sharecode=wB9QFxOGk0uZg1wIdU91OD3RVpoDlmyBmMnQV7_iYRQ&fbclid=IwcGRvZgNleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA80Mzc2MjYzMTY5NzM3ODgAAR5OJUTRMjs8CkHwkaM4oSKNqzkqt2nWj7M79lKCObd9ubHeAfTai4fTA7fD7g_aem_F19B-JKWwvGKM47YtV151A)
