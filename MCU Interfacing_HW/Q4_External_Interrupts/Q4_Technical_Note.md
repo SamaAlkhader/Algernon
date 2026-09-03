@@ -7,4 +7,4 @@ in `loop()`, never inside an ISR. The shared 32-bit count is copied atomically w
 
 ## Tinkercad simulation
 
-**Link:** _Paste the Tinkercad simulation link here._
+**Link:** [Q4-Wikwi https://wokwi.com/projects/474077141806253057]
