@@ -19,3 +19,5 @@
 Connect one outside potentiometer pin to 5 V and the other to GND. If the display shows solid
 blocks or blank characters, turn the potentiometer to adjust contrast. Replace
 `YOUR NAME - ID` in the sketch.
+
+**Link:** _[Q1 tinkercad](https://www.tinkercad.com/things/hib5CWZqjwU/editel?returnTo=%2Fdashboard&sharecode=5ecKqhgPnlr7C_JtBIThkuo8CR9qMXseZ3hgMkcg4MY)
