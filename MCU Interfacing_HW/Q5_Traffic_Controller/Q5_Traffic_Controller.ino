@@ -1,257 +1,230 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
-#define RED_LED _BV(PB0)
-#define YELLOW_LED _BV(PB1)
-#define GREEN_LED _BV(PB2)
-#define PED_LED _BV(PB3)
-#define LCD_RS _BV(PC0)
-#define LCD_EN _BV(PC1)
+// Register Masks 
 
-enum State
-{
-  GREEN_STATE,
-  YELLOW_STATE,
-  RED_STATE,
-  PED_CROSS_STATE
-};
+// traffic light bit definitions
+#define RED_BIT    (1 << PB0) 
+#define YEL_BIT    (1 << PB1)
+#define GRN_BIT    (1 << PB2)
+#define PED_BIT    (1 << PB3)
+
+// 7 segment definitions
+#define SEG_F      (1 << PB4)
+#define SEG_G      (1 << PB5)
+#define SEG_MASK_D 0xF8       // PD3 - PD7 -> segments a - e
+
+// lcd definitions
+#define RS_BIT        (1 << PC0)
+#define EN_BIT        (1 << PC1)
+#define LCD_DATA_MASK 0x3C          // PC2 - PC5 -> D4 - D7
+
+// button definition
+#define PEDBTN_BIT (1 << PD2)
+
+// Bare-Metal LCD Driver
+void lcd_wait_us(uint16_t us) { 
+// function wait the requested number of microseconds
+  
+    // record starting time
+    unsigned long start = micros();
+  
+  	// continuously check elapsed time (busy-wait)
+    while ((unsigned long)(micros() - start) < us) {}
+}
+void lcd_wait_ms(uint16_t ms) { 
+  while (ms--) lcd_wait_us(1000); 
+}
+
+void lcd_pulse_en(void) {
+    PORTC |= EN_BIT;
+    asm volatile("nop\n nop\n nop\n nop\n"); 
+    PORTC &= ~EN_BIT;
+}
+
+void lcd_send_nibble(uint8_t nibble_top4) {
+    uint8_t remapped = (nibble_top4 >> 2) & LCD_DATA_MASK;
+    PORTC = (PORTC & ~LCD_DATA_MASK) | remapped;
+    lcd_pulse_en();
+}
+void lcd_command(uint8_t cmd) {
+    PORTC &= ~RS_BIT;
+    lcd_send_nibble(cmd & 0xF0);
+    lcd_send_nibble((cmd << 4) & 0xF0);
+    if (cmd == 0x01 || cmd == 0x02) lcd_wait_ms(2); 
+    else lcd_wait_us(40);
+}
+void lcd_data(uint8_t b) {
+    PORTC |= RS_BIT;
+    lcd_send_nibble(b & 0xF0);
+    lcd_send_nibble((b << 4) & 0xF0);
+    lcd_wait_us(40);
+}
+void lcd_init(void) {
+    DDRC |= RS_BIT | EN_BIT | LCD_DATA_MASK;
+    PORTC &= ~(RS_BIT | EN_BIT);
+    lcd_wait_ms(50);
+    lcd_send_nibble(0x30); lcd_wait_ms(5);
+    lcd_send_nibble(0x30); lcd_wait_us(150);
+    lcd_send_nibble(0x30); lcd_wait_us(150);
+    lcd_send_nibble(0x20); lcd_wait_us(150);
+    lcd_command(0x28);
+    lcd_command(0x08);
+    lcd_command(0x01);
+    lcd_command(0x06);
+    lcd_command(0x0C);
+}
+void lcd_setCursor(uint8_t col, uint8_t row) {
+    uint8_t addr = (row == 0 ? 0x00 : 0x40) + col;
+    lcd_command(0x80 | addr);
+}
+void lcd_print(const char *s) { while (*s) lcd_data((uint8_t)*s++); }
+
+// 7-Segment Countdown 
+const uint8_t segD[10] PROGMEM = {0xF8,0x30,0xD8,0x78,0x30,0x68,0xE8,0x38,0xF8,0x78};
+const uint8_t segB[10] PROGMEM = {0x10,0x00,0x20,0x20,0x30,0x30,0x30,0x00,0x30,0x30};
+
+void showDigit(uint8_t d) {
+    if (d > 9) { 
+      PORTD &= ~SEG_MASK_D; PORTB &= ~(SEG_F | SEG_G); 
+      return; 
+    }
+    uint8_t dv = pgm_read_byte(&segD[d]);
+    uint8_t bv = pgm_read_byte(&segB[d]);
+    PORTD = (PORTD & ~SEG_MASK_D) | dv;
+    PORTB = (PORTB & ~(SEG_F | SEG_G)) | bv;
+}
+
+// Traffic State Machine
+enum TState { S_GREEN, S_YELLOW, S_RED, S_PED_CROSS };
+void enterState(TState s);         
 
 volatile bool pedRequest = false;
-volatile State state = GREEN_STATE;
-unsigned long stateStartedAt = 0;
-unsigned long pedBlinkAt = 0;
-bool pedLedState = false;
 
-ISR(INT0_vect)
-{
-  // Requests during an active crossing are ignored.
-  if (state != PED_CROSS_STATE)
-  {
-    pedRequest = true;
-  }
+TState state = S_GREEN;
+unsigned long stateStart = 0;
+const unsigned long T_GREEN = 6000, T_YELLOW = 2500, T_RED = 5000, T_PED = 4000;
+
+unsigned long lastRow1Update = 0;
+unsigned long pedBlinkPrev = 0;
+
+void enterState(TState s) {
+    state = s;
+    stateStart = millis();
+    PORTB &= ~(RED_BIT | YEL_BIT | GRN_BIT | PED_BIT);
+    switch (s) {
+        case S_GREEN:  PORTB |= GRN_BIT; 
+                       lcd_setCursor(0, 0); 
+                       lcd_print("TRAFFIC: GO  "); 
+                       break;
+        case S_YELLOW: 
+                       PORTB |= YEL_BIT; lcd_setCursor(0, 0); 
+                       lcd_print("TRAFFIC: SLOW"); 
+                       break;
+        case S_RED:    PORTB |= RED_BIT; 
+                       lcd_setCursor(0, 0); 
+                       lcd_print("TRAFFIC: STOP"); 
+                       break;
+        case S_PED_CROSS:
+                       PORTB |= RED_BIT;                        // Red holds through the crossing
+                       lcd_setCursor(0, 0); 
+                       lcd_print("PED: CROSSING");
+                       break;
+    }
 }
 
-static void waitUs(unsigned long us)
-{
-  unsigned long start = micros();
-
-  while (micros() - start < us)
-  {
-  }
+//  Pedestrian request ISR 
+ISR(INT0_vect) {
+    if (state != S_PED_CROSS) 
+      pedRequest = true;   // ignore requests during active crossing
 }
 
-static void pulseEnable()
-{
-  PORTC |= LCD_EN;
-  waitUs(1); // Safely exceed the LCD's 450 ns minimum pulse width.
-  PORTC &= ~LCD_EN;
+void setup_pedestrian_interrupt(void) {
+    DDRD  &= ~PEDBTN_BIT; // configure pedestrian bit as input
+    PORTD |=  PEDBTN_BIT; // enable internal pull-up resistor for the pedestrian bit
+    // EICRA: ISC01=1, ISC00=0 -> INT0 triggers on falling edge
+    EICRA |=  (1 << ISC01);
+    EICRA &= ~(1 << ISC00);
+    // EIMSK: enable INT0
+    EIMSK |= (1 << INT0);
 }
 
-static void sendNibble(uint8_t nibble)
-{
-  PORTD = (PORTD & 0x0F) | (nibble & 0xF0);
-  pulseEnable();
-}
+void setup() {
+  	// configure these PORTB pins as outputs
+    DDRB |= RED_BIT | YEL_BIT | GRN_BIT | PED_BIT | SEG_F | SEG_G;
+    DDRD |= SEG_MASK_D;
 
-static void sendByte(uint8_t value, bool isData)
-{
-  if (isData)
-  {
-    PORTC |= LCD_RS;
-  }
-  else
-  {
-    PORTC &= ~LCD_RS;
-  }
-
-  sendNibble(value);
-  sendNibble(value << 4);
-  waitUs(45);
-}
-
-static void lcdCommand(uint8_t command)
-{
-  sendByte(command, false);
-
-  if (command < 3)
-  {
-    waitUs(1700);
-  }
-}
-
-static void lcdData(uint8_t value)
-{
-  sendByte(value, true);
-}
-
-static void lcdPosition(byte column, byte row)
-{
-  lcdCommand(0x80 + (row ? 0x40 : 0x00) + column);
-}
-
-static void lcdPrint(const char *text)
-{
-  while (*text)
-  {
-    lcdData(*text++);
-  }
-}
-
-static void lcdInit()
-{
-  DDRC |= LCD_RS | LCD_EN;
-  DDRD |= 0xF0;
-
-  // Standard 4-bit LCD initialization.
-  waitUs(15000);
-  sendNibble(0x30);
-  waitUs(4100);
-  sendNibble(0x30);
-  waitUs(100);
-  sendNibble(0x30);
-  sendNibble(0x20);
-  lcdCommand(0x28);
-  lcdCommand(0x08);
-  lcdCommand(0x01);
-  lcdCommand(0x06);
-  lcdCommand(0x0C);
-}
-
-static unsigned long stateDuration()
-{
-  if (state == GREEN_STATE)
-  {
-    return 6000;
-  }
-
-  if (state == YELLOW_STATE)
-  {
-    return 2500;
-  }
-
-  if (state == RED_STATE)
-  {
-    return 5000;
-  }
-
-  return 4000;
-}
-
-// Enter a state, set its LEDs, and update LCD row 0.
-static void enterState(State nextState)
-{
-  state = nextState;
-  stateStartedAt = millis();
-  PORTB &= ~(RED_LED | YELLOW_LED | GREEN_LED | PED_LED);
-
-  if (state == GREEN_STATE)
-  {
-    PORTB |= GREEN_LED;
-  }
-  else if (state == YELLOW_STATE)
-  {
-    PORTB |= YELLOW_LED;
-  }
-  else
-  {
-    PORTB |= RED_LED;
-  }
-
-  lcdPosition(0, 0);
-
-  if (state == GREEN_STATE)
-    lcdPrint("TRAFFIC: GO     ");
-  else if (state == YELLOW_STATE)
-    lcdPrint("TRAFFIC: SLOW   ");
-  else if (state == RED_STATE)
-    lcdPrint("TRAFFIC: STOP   ");
-  else
-    lcdPrint("PED: CROSSING   ");
-}
-
-void setup()
-{
-  DDRB |= RED_LED | YELLOW_LED | GREEN_LED | PED_LED;
-
-  // D2 input with internal pull-up.
-  DDRD &= ~_BV(PD2);
-  PORTD |= _BV(PD2);
-
-  lcdInit();
-
-  // Configure INT0 for a falling edge.
-  EICRA = (EICRA & ~_BV(ISC00)) | _BV(ISC01);
-  EIMSK |= _BV(INT0);
-  sei();
-
-  enterState(GREEN_STATE);
-}
-
-void loop()
-{
-  unsigned long now = millis();
-  unsigned long elapsed = now - stateStartedAt;
-  unsigned long duration = stateDuration();
-
-  bool requestCopy;
-  cli();
-  requestCopy = pedRequest;
-  sei();
-
-  // Perform non-blocking state transitions.
-  if (state == GREEN_STATE && requestCopy && elapsed >= 3000)
-  {
-    cli();
-    pedRequest = false;
+    lcd_init();
+    setup_pedestrian_interrupt();
     sei();
-    enterState(YELLOW_STATE);
-  }
-  else if (state == GREEN_STATE && elapsed >= duration)
-  {
-    enterState(YELLOW_STATE);
-  }
-  else if (state == YELLOW_STATE && elapsed >= duration)
-  {
-    enterState(RED_STATE);
-  }
-  else if (state == RED_STATE && elapsed >= duration)
-  {
-    cli();
-    requestCopy = pedRequest;
-    pedRequest = false;
-    sei();
-    enterState(requestCopy ? PED_CROSS_STATE : GREEN_STATE);
-  }
-  else if (state == PED_CROSS_STATE && elapsed >= duration)
-  {
-    enterState(GREEN_STATE);
-  }
+    enterState(S_GREEN);
+}
 
-  // A 200 ms toggle produces a 2.5 Hz blink.
-  if (state == PED_CROSS_STATE && now - pedBlinkAt >= 200)
-  {
-    pedBlinkAt = now;
-    pedLedState = !pedLedState;
+void loop() {
+    unsigned long now = millis();
+    unsigned long elapsed = now - stateStart;
 
-    if (pedLedState)
-      PORTB |= PED_LED;
-    else
-      PORTB &= ~PED_LED;
-  }
+    // State transition logic 
+    switch (state) {
+        case S_GREEN:
+            if (elapsed >= T_GREEN && !pedRequest) {
+                enterState(S_YELLOW);
+            } else if (pedRequest && elapsed >= 3000) {
+                // two cases: 1. request arrived after 3s (immediate),
+                // and        2. request arrived before 3s (simply wait here until
+                //               elapsed crosses 3000ms, then fire on the very next pass
+                pedRequest = false;
+                enterState(S_YELLOW);
+            }
+            break;
 
-  static unsigned long lastRefresh = 0;
+        case S_YELLOW:
+            if (elapsed >= T_YELLOW) enterState(S_RED);
+            break;
 
-  if (now - lastRefresh >= 200)
-  {
-    lastRefresh = now;
-    elapsed = now - stateStartedAt;
-    duration = stateDuration();
-    unsigned long remaining = elapsed < duration ? duration - elapsed : 0;
+        case S_RED:
+            if (elapsed >= T_RED) {
+                if (pedRequest) {
+                    pedRequest = false;
+                    enterState(S_PED_CROSS);
+                } else {
+                    enterState(S_GREEN);
+                }
+            }
+            break;
 
-    char line[17];
-    snprintf(line, sizeof(line), "Rem Time:%2lu.%lus",
-             remaining / 1000, (remaining % 1000) / 100);
-    lcdPosition(0, 1);
-    lcdPrint(line);
-  }
+        case S_PED_CROSS:
+            if (elapsed >= T_PED) enterState(S_GREEN);
+            break;
+    }
+
+    // Pedestrian LED blink 2.5Hz during crossing 
+    if (state == S_PED_CROSS) {
+        if (now - pedBlinkPrev >= 200) {  // 400ms period -> 200ms half-cycle
+            pedBlinkPrev = now;
+            PORTB ^= PED_BIT;
+        }
+    }
+
+    //  LCD row1 + 7-seg countdown every 200ms
+    if (now - lastRow1Update >= 200) {
+        lastRow1Update = now;
+        unsigned long duration = (state == S_GREEN)  ? T_GREEN  :
+                                  (state == S_YELLOW) ? T_YELLOW :
+                                  (state == S_RED)    ? T_RED    : T_PED;
+        long remain = (long)duration - (long)elapsed;
+        if (remain < 0) remain = 0;
+
+        int whole = remain / 1000;
+        int tenth = (remain % 1000) / 100;
+        char buf[17];
+        snprintf(buf, sizeof(buf), "Rem Time: %d.%ds  ", whole, tenth);
+        lcd_setCursor(0, 1);
+        lcd_print(buf);
+
+        uint8_t digit = (uint8_t)((remain * 10) / (long)duration);
+        if (digit > 9) digit = 9;
+        showDigit(digit);
+    }
 }
