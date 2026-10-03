@@ -956,14 +956,19 @@ void spinWheels(bool clockwise, int leftPWM, int rightPWM) {
   }
 }
 
-void brakeMotors() {
+
+// Removing the drive command does not necessarily stop the wheels immediately (due to the robot's physical momentum),
+// braking can help reduce continued movement
+
+// function sets all four motor-driver inputs to a PWM value of 255
+void brakeMotors() { // applying active braking
   analogWrite(IN1, 255);
   analogWrite(IN2, 255);
   analogWrite(IN3, 255);
   analogWrite(IN4, 255);
 }
 
-void stopMotors() {
+void stopMotors() { // removing the drive command
   analogWrite(IN1, 0);
   analogWrite(IN2, 0);
   analogWrite(IN3, 0);
@@ -972,18 +977,27 @@ void stopMotors() {
 
 // Gentle stop: coasting first lets the wheels slow with the robot instead of
 // locking up and skidding; a short brake at the end stops the last bit of rolling.
-void brakeAndStop() {
-  stopMotors();
+void brakeAndStop() { // performs a controlled stop
+
+  // gradual sequence to reduce abrupt stopping and help the robot settle more smoothly at the end of a movement
+  
+  stopMotors(); // removes the drive command so the robot can begin slowing naturally
   delay(COAST_MS);
-  brakeMotors();
+  brakeMotors(); // applies a short braking period
   delay(SOFT_BRAKE_MS);
-  stopMotors();
+  stopMotors(); // sets all outputs to zero again
 }
 
 // ============================================================
 //  Side-wall edge tracker
 //  Confirms a wall/opening change after 2 consecutive NEW readings.
 // ============================================================
+
+// watches the side sensors to detect when the robot passes the end or beginning of a wall,
+// helps the robot estimate its position as it moves through the maze
+// Since side sensors are mounted ahead of the wheel axle, 
+// they can detect that boundary before the robot's center reaches it
+
 struct EdgeTracker {
   int confirmed = -1;     // -1 unknown, 0 open, 1 wall
   int candidate = -1;
@@ -998,13 +1012,16 @@ struct EdgeTracker {
     if (confirmed == -1) { confirmed = s; return false; }
     if (s == confirmed) { candCount = 0; return false; }
     if (s == candidate) candCount++; else { candidate = s; candCount = 1; }
+    
+    // once two consecutive new readings support the change, the new state becomes confirmed,
+    // two-reading confirmation reduces false edge detections caused by one noisy sensor reading
     if (candCount >= 2) { confirmed = s; candCount = 0; return true; }
     return false;
   }
 };
 
 // ============================================================
-//  DRIVE UNTIL SOMETHING INTERESTING HAPPENS (efficient right-wall following)
+//  DRIVE UNTIL SOMETHING HAPPENS (efficient right-wall following)
 //  Drives straight through corridors WITHOUT stopping in every cell, and while
 //  moving it keeps checking:
 //   - the RIGHT side of every cell it's about to reach. If a cell has an
